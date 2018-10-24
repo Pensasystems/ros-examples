@@ -1,0 +1,8 @@
+<launch>
+
+  <node pkg="snapdragon_mavros_vislam" type="snap_vislam_node" name="snap_vislam_node" output="screen">
+    <!-- <rosparam file="$(find rpg_qualcomm_vislam)/parameters/default.yaml"/> -->
+	<!-- remap from="vislam/pose" to="mavros/vision_pose/pose"/ -->
+  </node>
+
+</launch>
