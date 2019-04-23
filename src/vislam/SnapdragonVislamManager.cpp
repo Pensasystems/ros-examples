@@ -198,7 +198,7 @@ int32_t Snapdragon::VislamManager::Start() {
     image_buffer_ = new uint8_t[ image_buffer_size_bytes_ ];
 
     // Setup publishers/subscribers
-    imu_sub_ = nh_.subscribe("mavros/imu/data_raw", 10,
+    imu_sub_ = nh_.subscribe("mavros2/imu/data_raw", 10,
                             &Snapdragon::VislamManager::ImuCallback, this);
   }
   else {
