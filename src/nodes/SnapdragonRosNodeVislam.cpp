@@ -149,9 +149,9 @@ void Snapdragon::RosNode::Vislam::ThreadMain() {
   vislamParams.minStdPixelNoise = 0.5;
   vislamParams.failHighPixelNoisePoints = false;
 
-  vislamParams.logDepthBootstrap = 0;
-  vislamParams.useLogCameraHeight = false;
-  vislamParams.logCameraHeightBootstrap = -3.22;
+  vislamParams.logDepthBootstrap = -2.55;
+  vislamParams.useLogCameraHeight = true;
+  vislamParams.logCameraHeightBootstrap = -2.55;
   vislamParams.noInitWhenMoving = true;
   vislamParams.limitedIMUbWtrigger = 35.0;
 
