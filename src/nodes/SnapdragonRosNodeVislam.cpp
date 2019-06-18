@@ -120,13 +120,13 @@ void Snapdragon::RosNode::Vislam::ThreadMain() {
   // use the translation that the algorithm converges to
   vislamParams.tbc[0] = -0.006;
   vislamParams.tbc[1] = -0.020;
-  vislamParams.tbc[2] = 0.0;
+  vislamParams.tbc[2] = -0.0;
 
   // Transformation between camera and ROS IMU frame (forward-left-up).
   // Unit vector (1/sqrt(2), -1/sqrt(2), 0) times rotation magnitude PI
-  vislamParams.ombc[0] = 2.221;   //  PI / sqrt(2)
-  vislamParams.ombc[1] = -2.221;  // -PI / sqrt(2)
-  vislamParams.ombc[2] = 0.0;
+  vislamParams.ombc[0] = -1.760;   //  PI / sqrt(2)
+  vislamParams.ombc[1] = 1.760;  // -PI / sqrt(2)
+  vislamParams.ombc[2] = -0.729;
 
   vislamParams.delta = -0.008;
 
@@ -150,7 +150,7 @@ void Snapdragon::RosNode::Vislam::ThreadMain() {
   vislamParams.failHighPixelNoisePoints = false;
 
   vislamParams.logDepthBootstrap = -2.55;
-  vislamParams.useLogCameraHeight = true;
+  vislamParams.useLogCameraHeight = false;
   vislamParams.logCameraHeightBootstrap = -2.55;
   vislamParams.noInitWhenMoving = true;
   vislamParams.limitedIMUbWtrigger = 35.0;
