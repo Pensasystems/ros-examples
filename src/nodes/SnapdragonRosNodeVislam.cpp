@@ -45,12 +45,12 @@
 
 Snapdragon::RosNode::Vislam::Vislam( ros::NodeHandle nh ) : nh_(nh)
 {
-  pub_vislam_pose_ = nh_.advertise<geometry_msgs::PoseStamped>("vislam/pose",1);
-  pub_vislam_odometry_ = nh_.advertise<nav_msgs::Odometry>("vislam/odometry",1);
-  pub_vislam_tbc_estimate_ = nh_.advertise<geometry_msgs::Vector3>("vislam/tbc",1);
-  pub_vislam_rbc_estimate_x_ = nh_.advertise<geometry_msgs::Vector3>("vislam/rbc_x", 1);
-  pub_vislam_rbc_estimate_y_ = nh_.advertise<geometry_msgs::Vector3>("vislam/rbc_y", 1);
-  pub_vislam_rbc_estimate_z_ = nh_.advertise<geometry_msgs::Vector3>("vislam/rbc_z", 1);
+  pub_vislam_pose_ = nh_.advertise<geometry_msgs::PoseStamped>("vislam/pose",3);
+  pub_vislam_odometry_ = nh_.advertise<nav_msgs::Odometry>("vislam/odometry",3);
+  pub_vislam_tbc_estimate_ = nh_.advertise<geometry_msgs::Vector3>("vislam/tbc",3);
+  pub_vislam_rbc_estimate_x_ = nh_.advertise<geometry_msgs::Vector3>("vislam/rbc_x", 3);
+  pub_vislam_rbc_estimate_y_ = nh_.advertise<geometry_msgs::Vector3>("vislam/rbc_y", 3);
+  pub_vislam_rbc_estimate_z_ = nh_.advertise<geometry_msgs::Vector3>("vislam/rbc_z", 3);
   vislam_initialized_ = false;
   thread_started_ = false;
   thread_stop_ = false;
