@@ -173,10 +173,10 @@ int32_t Snapdragon::VislamManager::Initialize
       vislam_params_.logDepthBootstrap, vislam_params_.useLogCameraHeight, vislam_params_.logCameraHeightBootstrap,
       vislam_params_.noInitWhenMoving,
       vislam_params_.limitedIMUbWtrigger,
-      maskPGM, // const char *staticMaskFileName
-      0,       // const float32_t gpsImuTimeAlignment
-      tba,     // const float32_t *tba
-      true
+      maskPGM.c_str(), // const char *staticMaskFileName
+      0,               // const float32_t gpsImuTimeAlignment
+      tba,             // const float32_t *tba
+      true             // remember a map
     );
     if( vislam_ptr_ == nullptr ) {
       rc = -1;
