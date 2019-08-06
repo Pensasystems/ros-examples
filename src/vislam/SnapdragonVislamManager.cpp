@@ -154,7 +154,14 @@ int32_t Snapdragon::VislamManager::Initialize
   }
 
   //now intialize the VISLAM module.
+  std::string maskPGM;
+  if (rc == 0)
+  {
+	if (!ros::param::get("mask_pgm", maskPGM)) rc = -1;
+  }
+  
   if( rc == 0 ) {
+    float32_t tba[3] = {0, 0, 0};
     vislam_ptr_ = mvVISLAM_Initialize
     (
       &(cam_params_.mv_camera_config), 0,
@@ -165,7 +172,11 @@ int32_t Snapdragon::VislamManager::Initialize
       vislam_params_.stdCamNoise, vislam_params_.minStdPixelNoise, vislam_params_.failHighPixelNoisePoints,
       vislam_params_.logDepthBootstrap, vislam_params_.useLogCameraHeight, vislam_params_.logCameraHeightBootstrap,
       vislam_params_.noInitWhenMoving,
-      vislam_params_.limitedIMUbWtrigger
+      vislam_params_.limitedIMUbWtrigger,
+      maskPGM, // const char *staticMaskFileName
+      0,       // const float32_t gpsImuTimeAlignment
+      tba,     // const float32_t *tba
+      true
     );
     if( vislam_ptr_ == nullptr ) {
       rc = -1;
