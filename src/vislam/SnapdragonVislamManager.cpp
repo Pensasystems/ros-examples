@@ -154,11 +154,11 @@ int32_t Snapdragon::VislamManager::Initialize
   }
 
   //now intialize the VISLAM module.
-  std::string maskPGM;
-  if (rc == 0)
-  {
-	if (!ros::param::get("mask_pgm", maskPGM)) rc = -1;
-  }
+  //std::string maskPGM;
+  //if (rc == 0)
+  //{
+//	if (!ros::param::get("mask_pgm", maskPGM)) rc = -1;
+//  }
   
   if( rc == 0 ) {
     float32_t tba[3] = {0, 0, 0};
@@ -173,7 +173,7 @@ int32_t Snapdragon::VislamManager::Initialize
       vislam_params_.logDepthBootstrap, vislam_params_.useLogCameraHeight, vislam_params_.logCameraHeightBootstrap,
       vislam_params_.noInitWhenMoving,
       vislam_params_.limitedIMUbWtrigger,
-      maskPGM.c_str(), // const char *staticMaskFileName
+      "/root/rosws/src/pensa/system_config/calib/vislam_camera_mask.pgm", // const char *staticMaskFileName
       0,               // const float32_t gpsImuTimeAlignment
       tba,             // const float32_t *tba
       true             // remember a map
