@@ -169,6 +169,8 @@ void Snapdragon::RosNode::Vislam::ThreadMain() {
   cpaConfig.legacyCost.filterSize = 1;
   cpaConfig.legacyCost.exposureCost = 1.0f;
   cpaConfig.legacyCost.gainCost = 0.3333f;
+  cpaConfig.width = 640;
+  cpaConfig.height = 480;
 
   param.mv_cpa_config = cpaConfig;
   Snapdragon::VislamManager vislam_man(nh_);
