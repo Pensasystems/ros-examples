@@ -118,9 +118,9 @@ void Snapdragon::RosNode::Vislam::ThreadMain() {
   Snapdragon::VislamManager::InitParams vislamParams;
 
   // use the translation that the algorithm converges to
-  vislamParams.tbc[0] = -0.006;
-  vislamParams.tbc[1] = -0.020;
-  vislamParams.tbc[2] = -0.0;
+  vislamParams.tbc[0] = -0.007;
+  vislamParams.tbc[1] = -0.021;
+  vislamParams.tbc[2] = -0.001;
 
   // Transformation between camera and ROS IMU frame (forward-left-up).
   // Unit vector (1/sqrt(2), -1/sqrt(2), 0) times rotation magnitude PI
@@ -130,20 +130,20 @@ void Snapdragon::RosNode::Vislam::ThreadMain() {
 
   vislamParams.delta = -0.008;
 
-  vislamParams.std0Tbc[0] = 0.002;
-  vislamParams.std0Tbc[1] = 0.002;
-  vislamParams.std0Tbc[2] = 0.001;
+  vislamParams.std0Tbc[0] = 0.01;
+  vislamParams.std0Tbc[1] = 0.01;
+  vislamParams.std0Tbc[2] = 0.015;
 
-  vislamParams.std0Ombc[0] = 0.0174532925199433;
-  vislamParams.std0Ombc[1] = 0.0174532925199433;
-  vislamParams.std0Ombc[2] = 0.0174532925199433;
+  vislamParams.std0Ombc[0] = 0.035;//0.0174532925199433;
+  vislamParams.std0Ombc[1] = 0.035;//0.0174532925199433;
+  vislamParams.std0Ombc[2] = 0.035;//0.0174532925199433;
 
-  vislamParams.std0Delta = 0.001;
+  vislamParams.std0Delta = 0.007;
   vislamParams.accelMeasRange = 156;
   vislamParams.gyroMeasRange = 34;
 
-  vislamParams.stdAccelMeasNoise = 0.316227766016838; // sqrt(1e-1);
-  vislamParams.stdGyroMeasNoise = 1e-2; // sqrt(1e-4);
+  vislamParams.stdAccelMeasNoise = 0.6; //0.316227766016838; // sqrt(1e-1);
+  vislamParams.stdGyroMeasNoise = 0.05; //1e-2; // sqrt(1e-4);
 
   vislamParams.stdCamNoise = 100;
   vislamParams.minStdPixelNoise = 0.5;
@@ -153,7 +153,7 @@ void Snapdragon::RosNode::Vislam::ThreadMain() {
   vislamParams.useLogCameraHeight = true;
   vislamParams.logCameraHeightBootstrap = -2.25;
   vislamParams.noInitWhenMoving = true;
-  vislamParams.limitedIMUbWtrigger = 30.0;
+  vislamParams.limitedIMUbWtrigger = 25.0;
 
   Snapdragon::CameraParameters param;
   param.enable_cpa = 1;
