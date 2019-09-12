@@ -51,6 +51,7 @@ Snapdragon::RosNode::Vislam::Vislam( ros::NodeHandle nh ) : nh_(nh)
   pub_vislam_rbc_estimate_x_ = nh_.advertise<geometry_msgs::Vector3>("vislam/rbc_x", 3);
   pub_vislam_rbc_estimate_y_ = nh_.advertise<geometry_msgs::Vector3>("vislam/rbc_y", 3);
   pub_vislam_rbc_estimate_z_ = nh_.advertise<geometry_msgs::Vector3>("vislam/rbc_z", 3);
+  pub_vislam_img_ts_ = nh_.advertise<std_msgs::Header>("vislam/img_ts", 3);
   vislam_initialized_ = false;
   thread_started_ = false;
   thread_stop_ = false;
@@ -189,11 +190,11 @@ void Snapdragon::RosNode::Vislam::ThreadMain() {
 
   mvVISLAMPose vislamPose;
   int64_t vislamFrameId;
-  uint64_t timestamp_ns;
+  uint64_t timestamp_ns, image_ts_ns;;
   thread_stop_ = false;
   int32_t vislam_ret;
   while( !thread_stop_ ) {
-    vislam_ret = vislam_man.GetPose( vislamPose, vislamFrameId, timestamp_ns );
+	  vislam_ret = vislam_man.GetPose( vislamPose, vislamFrameId, timestamp_ns, image_ns_ts );
 
     // get the total number of tracked points
     int32_t num_tracked_points = vislam_man.HasUpdatedPointCloud();
@@ -204,6 +205,11 @@ void Snapdragon::RosNode::Vislam::ThreadMain() {
           vislamPose.poseQuality != MV_TRACKING_STATE_INITIALIZING ) {
           // Publish Pose Data
           PublishVislamData( vislamPose, vislamFrameId, timestamp_ns, num_tracked_points );
+		  
+		  std_msgs::Time imgstamp;
+		  imgstamp.data.sec = (int32_t)(image_ts_ns/1000000000UL);
+		  imgstamp.data.nsec = (int32_t)(image_ts_ns%1000000000UL);		  
+		  pub_vislam_img_ts_.publish(imgstamp);
       }
 
       // Log changes in tracking state

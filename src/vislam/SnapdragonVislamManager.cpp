@@ -237,7 +237,10 @@ int32_t Snapdragon::VislamManager::HasUpdatedPointCloud() {
   return mvVISLAM_HasUpdatedPointCloud(vislam_ptr_);
 }
 
-int32_t Snapdragon::VislamManager::GetPose( mvVISLAMPose& pose, int64_t& pose_frame_id, uint64_t& timestamp_ns ) {
+int32_t Snapdragon::VislamManager::GetPose( mvVISLAMPose& pose,
+											int64_t& pose_frame_id,
+											uint64_t& timestamp_ns,
+											uint64_t& frame_ts_ns) {
   int32_t rc = 0;
   if( !initialized_ ) {
     WARN_PRINT( "VislamManager not initialize" );
@@ -249,7 +252,7 @@ int32_t Snapdragon::VislamManager::GetPose( mvVISLAMPose& pose, int64_t& pose_fr
   // Then call the API to get the Pose.
   int64_t frame_id;
   uint32_t used = 0;
-  uint64_t frame_ts_ns;
+  //uint64_t frame_ts_ns;
   static int64_t prev_frame_id = 0;
   rc = cam_man_ptr_->GetNextImageData( &frame_id, &frame_ts_ns, image_buffer_, image_buffer_size_bytes_ , &used );
 
