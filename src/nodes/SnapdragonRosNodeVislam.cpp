@@ -130,20 +130,20 @@ void Snapdragon::RosNode::Vislam::ThreadMain() {
 
   vislamParams.delta = -0.008;
 
-  vislamParams.std0Tbc[0] = 0.01;
-  vislamParams.std0Tbc[1] = 0.01;
-  vislamParams.std0Tbc[2] = 0.015;
+  vislamParams.std0Tbc[0] = 0.002;
+  vislamParams.std0Tbc[1] = 0.002;
+  vislamParams.std0Tbc[2] = 0.001;
 
-  vislamParams.std0Ombc[0] = 0.035;//0.0174532925199433;
-  vislamParams.std0Ombc[1] = 0.035;//0.0174532925199433;
-  vislamParams.std0Ombc[2] = 0.035;//0.0174532925199433;
+  vislamParams.std0Ombc[0] = 0.0174532925199433;
+  vislamParams.std0Ombc[1] = 0.0174532925199433;
+  vislamParams.std0Ombc[2] = 0.0174532925199433;
 
-  vislamParams.std0Delta = 0.007;
+  vislamParams.std0Delta = 0.001;
   vislamParams.accelMeasRange = 156;
   vislamParams.gyroMeasRange = 34;
 
-  vislamParams.stdAccelMeasNoise = 0.6; //0.316227766016838; // sqrt(1e-1);
-  vislamParams.stdGyroMeasNoise = 0.05; //1e-2; // sqrt(1e-4);
+  vislamParams.stdAccelMeasNoise = 0.316227766016838; // sqrt(1e-1);
+  vislamParams.stdGyroMeasNoise = 1e-2; // sqrt(1e-4);
 
   vislamParams.stdCamNoise = 100;
   vislamParams.minStdPixelNoise = 0.5;
@@ -151,9 +151,9 @@ void Snapdragon::RosNode::Vislam::ThreadMain() {
 
   vislamParams.logDepthBootstrap = -2.55;
   vislamParams.useLogCameraHeight = false;
-  vislamParams.logCameraHeightBootstrap = -2.25;
+  vislamParams.logCameraHeightBootstrap = -2.55;
   vislamParams.noInitWhenMoving = true;
-  vislamParams.limitedIMUbWtrigger = 25.0;
+  vislamParams.limitedIMUbWtrigger = 35.0;
 
   Snapdragon::CameraParameters param;
   param.enable_cpa = 1;
