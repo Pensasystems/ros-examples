@@ -31,6 +31,7 @@
  ****************************************************************************/
 #include "SnapdragonRosNodeVislam.hpp"
 
+#include <cmath>
 #include <geometry_msgs/PointStamped.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/TransformStamped.h>
@@ -40,11 +41,16 @@
 #include <tf2/LinearMath/Matrix3x3.h>
 #include <tf2_ros/transform_broadcaster.h>
 #include <tf2_ros/buffer.h>
+#include <tf2/utils.h>
 
 #define MIN_NUM_FEATURES 20
 
-Snapdragon::RosNode::Vislam::Vislam( ros::NodeHandle nh ) : nh_(nh)
+Snapdragon::RosNode::Vislam::Vislam( ros::NodeHandle nh ) :
+	nh_(nh),
+	error_per_meter_(10)
 {
+	ros::param::param("~error_per_meter", error_per_meter_, error_per_meter_);
+	
   pub_vislam_pose_ = nh_.advertise<geometry_msgs::PoseStamped>("vislam/pose",3);
   pub_vislam_odometry_ = nh_.advertise<nav_msgs::Odometry>("vislam/odometry",3);
   pub_vislam_tbc_estimate_ = nh_.advertise<geometry_msgs::Vector3>("vislam/tbc",3);
@@ -321,6 +327,10 @@ int32_t Snapdragon::RosNode::Vislam::PublishVislamData( mvVISLAMPose& vislamPose
         odom_msg.pose.covariance[ i*6 + j ] = 10001.0f;
     }
   }
+
+  double yaw = tf2::getYaw(odom_msg.pose.pose.orientation);
+  odom_msg.pose.covariance[0] += odom_msg.pose.pose.position.x * error_per_meter_ * cos(yaw);
+  odom_msg.pose.covariance[7] += odom_msg.pose.pose.position.y * error_per_meter_ * sin(yaw);  
 
   pub_vislam_odometry_.publish(odom_msg);
 

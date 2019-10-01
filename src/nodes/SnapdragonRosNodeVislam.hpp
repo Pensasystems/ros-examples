@@ -97,6 +97,7 @@ private:
   void ThreadMain();
 
   // data members;
+  double error_per_meter_;
   std::thread vislam_process_thread_;
   std::atomic<bool> thread_started_;
   std::atomic<bool> thread_stop_;

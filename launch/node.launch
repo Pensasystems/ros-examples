@@ -1,8 +1,10 @@
 <launch>
 
+  <arg name="error_per_meter" />
   <arg name="mask_pgm" default="$(find vislam)/mask.pgm" />
   
   <node pkg="vislam" type="snap_vislam_node" name="snap_vislam_node" output="screen">
+    <param name="error_per_meter" value="$(arg error_per_meter)" />
     <param name="mask_pgm" value="$(arg mask_pgm)" />
     <!-- remap from="vislam/pose" to="mavros/vision_pose/pose"/ -->
   </node>
