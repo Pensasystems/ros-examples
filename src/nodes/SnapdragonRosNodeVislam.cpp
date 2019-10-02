@@ -309,7 +309,7 @@ int32_t Snapdragon::RosNode::Vislam::PublishVislamData( mvVISLAMPose& vislamPose
   nav_msgs::Odometry odom_msg;
   odom_msg.header.stamp = frame_time;
   odom_msg.header.frame_id = "vislam";
-  odom_msg.child_frame_id = "vislam";
+  odom_msg.child_frame_id = "base_link_vislam";
   odom_msg.pose.pose = pose_msg.pose;
   odom_msg.twist.twist.linear.x = vislamPose.velocity[0];
   odom_msg.twist.twist.linear.y = vislamPose.velocity[1];
@@ -329,8 +329,8 @@ int32_t Snapdragon::RosNode::Vislam::PublishVislamData( mvVISLAMPose& vislamPose
   }
 
   double yaw = tf2::getYaw(odom_msg.pose.pose.orientation);
-  odom_msg.pose.covariance[0] += odom_msg.pose.pose.position.x * error_per_meter_ * cos(yaw);
-  odom_msg.pose.covariance[7] += odom_msg.pose.pose.position.y * error_per_meter_ * sin(yaw);  
+  odom_msg.pose.covariance[0] += odom_msg.pose.pose.position.x * error_per_meter_;
+  odom_msg.pose.covariance[7] += odom_msg.pose.pose.position.y * error_per_meter_;  
 
   pub_vislam_odometry_.publish(odom_msg);
 
