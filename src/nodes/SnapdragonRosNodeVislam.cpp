@@ -51,7 +51,7 @@ Snapdragon::RosNode::Vislam::Vislam( ros::NodeHandle nh ) :
 {
 	ros::param::param("~error_per_meter", error_per_meter_, error_per_meter_);
 	
-  pub_vislam_pose_ = nh_.advertise<geometry_msgs::PoseWithCovarianceStamped>("vislam/pose",3);
+  pub_vislam_pose_ = nh_.advertise<geometry_msgs::PoseStamped>("vislam/pose",3);
   pub_vislam_odometry_ = nh_.advertise<nav_msgs::Odometry>("vislam/odometry",3);
   pub_vislam_tbc_estimate_ = nh_.advertise<geometry_msgs::Vector3>("vislam/tbc",3);
   pub_vislam_rbc_estimate_x_ = nh_.advertise<geometry_msgs::Vector3>("vislam/rbc_x", 3);
@@ -249,7 +249,7 @@ void Snapdragon::RosNode::Vislam::ThreadMain() {
 
 int32_t Snapdragon::RosNode::Vislam::PublishVislamData( mvVISLAMPose& vislamPose, int64_t vislamFrameId,
                                                         uint64_t timestamp_ns, int32_t num_tracked_points ) {
-  geometry_msgs::PoseWithCovarianceStamped pose_msg;
+  geometry_msgs::PoseStamped pose_msg;
   ros::Time frame_time;
   frame_time.sec = (int32_t)(timestamp_ns/1000000000UL);
   frame_time.nsec = (int32_t)(timestamp_ns % 1000000000UL);
@@ -270,15 +270,14 @@ int32_t Snapdragon::RosNode::Vislam::PublishVislamData( mvVISLAMPose& vislamPose
     vislamPose.bodyPose.matrix[2][2]);
   tf2::Quaternion q;
   R.getRotation(q);
-  pose_msg.pose.pose.position.x = vislamPose.bodyPose.matrix[0][3];
-  pose_msg.pose.pose.position.y = vislamPose.bodyPose.matrix[1][3];
-  pose_msg.pose.pose.position.z = vislamPose.bodyPose.matrix[2][3];
-  pose_msg.pose.pose.orientation.x = q.getX();
-  pose_msg.pose.pose.orientation.y = q.getY();
-  pose_msg.pose.pose.orientation.z = q.getZ();
-  pose_msg.pose.pose.orientation.w = q.getW();
-  //se_msg.pose.covariance=odom_msg.pose.covariance;
- // pub_vislam_pose_.publish(pose_msg);
+  pose_msg.pose.position.x = vislamPose.bodyPose.matrix[0][3];
+  pose_msg.pose.position.y = vislamPose.bodyPose.matrix[1][3];
+  pose_msg.pose.position.z = vislamPose.bodyPose.matrix[2][3];
+  pose_msg.pose.orientation.x = q.getX();
+  pose_msg.pose.orientation.y = q.getY();
+  pose_msg.pose.orientation.z = q.getZ();
+  pose_msg.pose.orientation.w = q.getW();
+  pub_vislam_pose_.publish(pose_msg);
 
   // Publish translation and rotation estimates
   geometry_msgs::Vector3 tbc_msg;
@@ -311,7 +310,7 @@ int32_t Snapdragon::RosNode::Vislam::PublishVislamData( mvVISLAMPose& vislamPose
   odom_msg.header.stamp = frame_time;
   odom_msg.header.frame_id = "vislam";
   odom_msg.child_frame_id = "base_link_vislam";
-  odom_msg.pose.pose = pose_msg.pose.pose;
+  odom_msg.pose.pose = pose_msg.pose;
   odom_msg.twist.twist.linear.x = vislamPose.velocity[0];
   odom_msg.twist.twist.linear.y = vislamPose.velocity[1];
   odom_msg.twist.twist.linear.z = vislamPose.velocity[2];
@@ -330,23 +329,21 @@ int32_t Snapdragon::RosNode::Vislam::PublishVislamData( mvVISLAMPose& vislamPose
   }
 
   double yaw = tf2::getYaw(odom_msg.pose.pose.orientation);
-  odom_msg.pose.covariance[0] += sqrt(pow(odom_msg.pose.pose.position.x,2)+pow(odom_msg.pose.pose.position.y,2)) * error_per_meter_;
-  odom_msg.pose.covariance[7] += sqrt(pow(odom_msg.pose.pose.position.x,2)+pow(odom_msg.pose.pose.position.y,2)) * error_per_meter_;
-  pose_msg.pose.covariance=odom_msg.pose.covariance;
+  odom_msg.pose.covariance[0] += odom_msg.pose.pose.position.x * error_per_meter_;
+  odom_msg.pose.covariance[7] += odom_msg.pose.pose.position.y * error_per_meter_;  
 
   pub_vislam_odometry_.publish(odom_msg);
-  pub_vislam_pose_.publish(pose_msg);
 
   // compute transforms
   std::vector<geometry_msgs::TransformStamped> transforms;
   geometry_msgs::TransformStamped transform;
-  transform.transform.translation.x = pose_msg.pose.pose.position.x;
-  transform.transform.translation.y = pose_msg.pose.pose.position.y;
-  transform.transform.translation.z = pose_msg.pose.pose.position.z;
-  transform.transform.rotation.x = pose_msg.pose.pose.orientation.x;
-  transform.transform.rotation.y = pose_msg.pose.pose.orientation.y;
-  transform.transform.rotation.z = pose_msg.pose.pose.orientation.z;
-  transform.transform.rotation.w = pose_msg.pose.pose.orientation.w;
+  transform.transform.translation.x = pose_msg.pose.position.x;
+  transform.transform.translation.y = pose_msg.pose.position.y;
+  transform.transform.translation.z = pose_msg.pose.position.z;
+  transform.transform.rotation.x = pose_msg.pose.orientation.x;
+  transform.transform.rotation.y = pose_msg.pose.orientation.y;
+  transform.transform.rotation.z = pose_msg.pose.orientation.z;
+  transform.transform.rotation.w = pose_msg.pose.orientation.w;
   transform.child_frame_id = "base_link_vislam";
   transform.header.frame_id = "vislam";
   transform.header.stamp = frame_time;
