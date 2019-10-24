@@ -1,8 +1,10 @@
 <launch>
 
+  <arg name="mask_pgm" default="$(find vislam)/mask.pgm" />
+  
   <node pkg="vislam" type="snap_vislam_node" name="snap_vislam_node" output="screen">
-    <!-- <rosparam file="$(find rpg_qualcomm_vislam)/parameters/default.yaml"/> -->
-	<!-- remap from="vislam/pose" to="mavros/vision_pose/pose"/ -->
+    <param name="mask_pgm" value="$(arg mask_pgm)" />
+    <!-- remap from="vislam/pose" to="mavros/vision_pose/pose"/ -->
   </node>
 
 </launch>
