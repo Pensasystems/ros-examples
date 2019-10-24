@@ -303,7 +303,7 @@ int32_t Snapdragon::RosNode::Vislam::PublishVislamData( mvVISLAMPose& vislamPose
   nav_msgs::Odometry odom_msg;
   odom_msg.header.stamp = frame_time;
   odom_msg.header.frame_id = "vislam";
-  odom_msg.child_frame_id = "vislam";
+  odom_msg.child_frame_id = "base_link_vislam";
   odom_msg.pose.pose = pose_msg.pose;
   odom_msg.twist.twist.linear.x = vislamPose.velocity[0];
   odom_msg.twist.twist.linear.y = vislamPose.velocity[1];
