@@ -4,7 +4,7 @@
   
   <node pkg="vislam" type="snap_vislam_node" name="snap_vislam_node" output="screen">
     <param name="mask_pgm" value="$(arg mask_pgm)" />
-    <!-- remap from="vislam/pose" to="mavros/vision_pose/pose"/ -->
+    <remap from="vislam/pose" to="mavros/vision_pose/pose" />
   </node>
 
 </launch>
