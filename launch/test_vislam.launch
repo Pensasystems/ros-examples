@@ -1,0 +1,19 @@
+<launch>
+
+  <!-- Launch nodes for testing vislam -->
+  <!-- Note: Px4 needs to be running as well -->
+
+  <!-- Launch mavros -->
+  <include file="$(find system_config)/launch/mavros.launch" />
+
+  <!-- Launch vislam -->
+  <include file="$(find vislam)/launch/node.launch" >
+    <arg name="mask_pgm" value="$(find system_config)/calib/vislam_camera_mask.pgm" />
+
+    <!-- Offset values -->
+    <arg name="offset_x" value="0.13" />
+    <arg name="offset_y" value="0.0" />
+    <arg name="offset_z" value="0.0" />
+  </include>
+
+</launch>
