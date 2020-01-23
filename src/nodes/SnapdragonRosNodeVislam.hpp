@@ -108,5 +108,6 @@ private:
   ros::Publisher pub_vislam_rbc_estimate_x_;
   ros::Publisher pub_vislam_rbc_estimate_y_;
   ros::Publisher pub_vislam_rbc_estimate_z_;
+  double offset_x_, offset_y_, offset_z_;
   int previous_mv_tracking_state_ = MV_TRACKING_STATE_FAILED;
 };
