@@ -272,9 +272,9 @@ int32_t Snapdragon::RosNode::Vislam::PublishVislamData( mvVISLAMPose& vislamPose
     vislamPose.bodyPose.matrix[2][2]);
   tf2::Quaternion q;
   R.getRotation(q);
-  pose_msg.pose.position.x = vislamPose.bodyPose.matrix[0][3];
-  pose_msg.pose.position.y = vislamPose.bodyPose.matrix[1][3];
-  pose_msg.pose.position.z = vislamPose.bodyPose.matrix[2][3];
+  pose_msg.pose.position.x = vislamPose.bodyPose.matrix[0][3] + offset_x_;
+  pose_msg.pose.position.y = vislamPose.bodyPose.matrix[1][3] + offset_y_;
+  pose_msg.pose.position.z = vislamPose.bodyPose.matrix[2][3] + offset_z_;
   pose_msg.pose.orientation.x = q.getX();
   pose_msg.pose.orientation.y = q.getY();
   pose_msg.pose.orientation.z = q.getZ();
