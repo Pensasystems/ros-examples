@@ -14,6 +14,8 @@
     <arg name="offset_x" value="0.15" />
     <arg name="offset_y" value="0.0" />
     <arg name="offset_z" value="0.0" />
+
+    <remap from="vislam/pose" to="mavros/vision_pose/pose" />
   </include>
 
 </launch>
