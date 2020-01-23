@@ -15,7 +15,8 @@
     <arg name="offset_y" value="0.0" />
     <arg name="offset_z" value="0.0" />
 
-    <remap from="vislam/pose" to="mavros/vision_pose/pose" />
   </include>
+
+  <node pkg="topic_tools" type="relay" name="vislam_to_mavros" args="/vislam/pose /mavros/vision_pose/pose" /> 
 
 </launch>
