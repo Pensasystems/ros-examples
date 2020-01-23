@@ -53,9 +53,9 @@ Snapdragon::RosNode::Vislam::Vislam( ros::NodeHandle nh ) : nh_(nh)
   pub_vislam_rbc_estimate_z_ = nh_.advertise<geometry_msgs::Vector3>("vislam/rbc_z", 3);
   
   // Load board offser parameters
-  nh_.param<double>("offset_x", offset_x_, 0.0);
-  nh_.param<double>("offset_y", offset_y_, 0.0);
-  nh_.param<double>("offset_z", offset_z_, 0.0);
+  ros::param::get("~offset_x", offset_x_);
+  ros::param::get("~offset_y", offset_y_);
+  ros::param::get("~offset_z", offset_z_);
   ROS_INFO("[vislam] Offsets: [%f %f %f]", offset_x_, offset_y_, offset_z_);
 
   // Parameter initialization
