@@ -11,7 +11,7 @@
     <arg name="mask_pgm" value="$(find system_config)/calib/vislam_camera_mask.pgm" />
 
     <!-- Offset values -->
-    <arg name="offset_x" value="0.13" />
+    <arg name="offset_x" value="0.15" />
     <arg name="offset_y" value="0.0" />
     <arg name="offset_z" value="0.0" />
   </include>
